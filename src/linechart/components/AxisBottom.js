@@ -22,8 +22,6 @@ export const AxisBottom = ({xScale, innerHeight, height, formatTime, tickOffset,
   <>
     
     {xScale.ticks().map((tickValue) => {
-      console.log(xScale(tickValue))
-      console.log(xScale.domain())
       return (<Tick 
         key={tickValue}
         transform={`translate(${xScale(tickValue)}, 0)`}

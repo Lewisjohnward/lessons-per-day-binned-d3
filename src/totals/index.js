@@ -2,6 +2,7 @@ import { sum,scaleTime, extent,bin, timeMonths } from "d3";
 import {Container, TextContainer, Title, Text} from "./styledComponents"
 
 export const Totals = ({ height, data }) => {
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const total = sum(data, (d) => d.length);
   const firstLesson = data[data.length-1].date.getTime()
   const today = new Date()
@@ -29,6 +30,21 @@ export const Totals = ({ height, data }) => {
       };
     });
 
+    const longestTimeWithoutLesson = () => {
+      let biggestGapBetweenTwoDates = 0
+      let prevDate = data[0].date
+      data.map(({date}) => {
+        const difference = prevDate.getTime() - date.getTime() 
+        if(biggestGapBetweenTwoDates < difference){
+          biggestGapBetweenTwoDates = difference
+        }
+        prevDate = date
+      })
+      const days = (biggestGapBetweenTwoDates/ (1000*60*60*24))
+      return days
+    }
+
+    console.log(longestTimeWithoutLesson())
     const monthsWithoutLesson = binnedData.filter(d => d.y === 0).length
     const monthWithMostLessons = () => {
       let mostLessons = 0
@@ -45,7 +61,10 @@ export const Totals = ({ height, data }) => {
           if (d.y1 > mostTime){
             mostTime = d.y1
           }})
-        return mostTime
+          const [monthWithMost] = binnedData.filter(d => d.y1 === mostTime)
+          const month = months[monthWithMost.x0.getMonth()]
+          const year = monthWithMost.x0.getFullYear()
+        return `${month}  ${year}`
         }
 
 
@@ -65,7 +84,7 @@ export const Totals = ({ height, data }) => {
         </TextContainer>
         <TextContainer>
         <Title height={height}>LONGEST TIME WITHOUT LESSON</Title>
-        <Text height={height}> ? hrs</Text>
+        <Text height={height}> {longestTimeWithoutLesson()} days</Text>
         </TextContainer>
         <TextContainer>
         <Title height={height}>MONTHS WITHOUT LESSON</Title>

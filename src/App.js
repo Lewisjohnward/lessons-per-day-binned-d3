@@ -37,14 +37,14 @@ const yAxis = "lessons";
 const xAxis = "months";
 
 export const App = () => {
-  const [graphs, setGraphs] = useState([{ yAxis: "lessons", xAxis: "months", ordered: true}]);
+  const [graphs, setGraphs] = useState([{ yAxis: "lessons", xAxis: "months", ordered: true},{ yAxis: "hours", xAxis: "year", ordered: true}]);
   const data = useData();
 
   if (!data) {
     return <p>Loading</p>;
   }
   const handleGraphCreate = (e) => {
-    if(e.target.textContent === "+") setGraphs((prev) => [...prev, { yAxis: "lessons", xAxis: "year", ordered: false}]);
+    if(e.target.textContent === "+") setGraphs((prev) => [...prev, { yAxis: "hours", xAxis: "year", ordered: false}]);
     if(e.target.textContent === "-") setGraphs((prev) => {
       const newArr = [...prev]
       newArr.pop()

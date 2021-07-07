@@ -30,7 +30,6 @@ export const useGenerateAxis = (data, innerWidth, innerHeight, yAxis, ordered) =
   const xScale = scaleTime()
     .domain(extent(data, xValue))
     .range([0, innerWidth])
-    .nice();
 
   //Y axis
   const yValue = (d) => {
